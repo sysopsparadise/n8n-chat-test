@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
 
   <style>
@@ -11,52 +10,85 @@
       --navy: #16324f;
       --navy-dark: #122a42;
       --gold: #c9a14a;
+      --gold-dark: #b8923f;
       --surface: #ffffff;
-      --ink: #18314a;
-      --muted: #64748b;
+      --panel-bg: #f4f6f9;
+      --border: #e8edf1;
+      --input-border: #d9dee7;
+      --font: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --desktop-gap: 22px;
+      --mobile-gap: 16px;
+      --launcher-size: 62px;
+      --launcher-size-mobile: 60px;
+      --topbar-height: 58px;
+      --topbar-height-mobile: 56px;
 
-      --chat--color--primary: #16324f;
-      --chat--color--primary-shade-50: #122a42;
-      --chat--color--secondary: #c9a14a;
-      --chat--color-secondary-shade-50: #b8923f;
-      --chat--color-dark: #16324f;
+      --chat--color--primary: var(--navy);
+      --chat--color--primary-shade-50: var(--navy-dark);
+      --chat--color--secondary: var(--gold);
+      --chat--color-secondary-shade-50: var(--gold-dark);
+      --chat--color-dark: var(--navy);
       --chat--border-radius: 12px;
-      --chat--message--user--background: #c9a14a;
-      --chat--button--background--primary: #c9a14a;
+      --chat--message--user--background: var(--gold);
+      --chat--button--background--primary: var(--gold);
       --chat--header--padding: 1.1rem 1.5rem;
       --chat--heading--font-size: 1.45em;
-      --chat--font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --chat--font-family: var(--font);
     }
 
-    * {
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
     }
 
     body {
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: var(--font);
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .ana-launcher,
+    .mode-button,
+    .icon-button,
+    .voice-back {
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border: 0;
+      cursor: pointer;
     }
 
     .ana-launcher {
       position: fixed;
       z-index: 10000;
-      right: max(22px, env(safe-area-inset-right));
-      bottom: max(22px, env(safe-area-inset-bottom));
-      display: grid;
-      place-items: center;
-      width: 62px;
-      height: 62px;
-      border: 0;
+      right: max(var(--desktop-gap), env(safe-area-inset-right));
+      bottom: max(var(--desktop-gap), env(safe-area-inset-bottom));
+      width: var(--launcher-size);
+      height: var(--launcher-size);
       border-radius: 50%;
-      cursor: pointer;
-      color: white;
+      color: #fff;
       background: var(--navy);
       box-shadow: 0 12px 30px rgba(22, 50, 79, .32);
       transition: transform .2s ease, background .2s ease;
     }
 
-    .ana-launcher:hover {
-      transform: translateY(-2px) scale(1.03);
+    .ana-launcher:hover,
+    .ana-launcher:focus-visible,
+    .voice-back:hover,
+    .voice-back:focus-visible {
       background: var(--navy-dark);
+    }
+
+    .ana-launcher:hover,
+    .ana-launcher:focus-visible {
+      transform: translateY(-2px) scale(1.03);
     }
 
     .ana-launcher svg {
@@ -67,7 +99,7 @@
     .ana-panel {
       position: fixed;
       z-index: 10001;
-      right: max(22px, env(safe-area-inset-right));
+      right: max(var(--desktop-gap), env(safe-area-inset-right));
       bottom: max(96px, calc(env(safe-area-inset-bottom) + 78px));
       width: min(390px, calc(100vw - 32px));
       height: min(630px, calc(100dvh - 120px));
@@ -76,7 +108,7 @@
       background: var(--surface);
       box-shadow: 0 24px 70px rgba(15, 35, 55, .28);
       transition: height .22s ease;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: var(--font);
     }
 
     .ana-panel.is-chooser {
@@ -84,10 +116,6 @@
       height: 156px;
       border-radius: 24px;
       background: var(--navy);
-    }
-
-    [hidden] {
-      display: none !important;
     }
 
     .panel-screen {
@@ -108,14 +136,9 @@
     }
 
     .mode-button {
-      display: grid;
-      place-items: center;
       width: 58px;
       height: 58px;
-      padding: 0;
-      border: 0;
       border-radius: 50%;
-      cursor: pointer;
       color: #292d34;
       background: #fbfaf7;
       box-shadow: 0 3px 8px rgba(0, 0, 0, .16);
@@ -140,40 +163,33 @@
       display: flex;
       align-items: center;
       gap: 7px;
-      min-height: 58px;
-      height: 58px;
+      height: var(--topbar-height);
+      min-height: var(--topbar-height);
       padding: 8px 11px;
-      border-bottom: 1px solid #e8edf1;
+      border-bottom: 1px solid var(--border);
       background: #fff;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     .panel-topbar strong {
       flex: 1;
       color: var(--navy);
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       font-size: 18px;
       font-weight: 700;
       line-height: 1.2;
     }
 
     .icon-button {
-      display: grid;
-      place-items: center;
       width: 36px;
       height: 36px;
-      padding: 0;
-      border: 0;
       border-radius: 9px;
-      cursor: pointer;
       color: var(--navy);
       background: transparent;
-      font-family: inherit;
       font-size: 24px;
       line-height: 1;
     }
 
-    .icon-button:hover {
+    .icon-button:hover,
+    .icon-button:focus-visible {
       background: #f0f4f7;
     }
 
@@ -183,29 +199,26 @@
     }
 
     .panel-content {
-      height: calc(100% - 58px);
+      height: calc(100% - var(--topbar-height));
       overflow: hidden;
-      background: #f4f6f9;
+      background: var(--panel-bg);
     }
 
-    #n8n-chat {
-      height: 100%;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
-    }
-
+    #n8n-chat,
     #n8n-chat * {
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+      font-family: var(--font) !important;
     }
 
-    #n8n-chat .chat-wrapper {
+    #n8n-chat,
+    #n8n-chat .chat-wrapper,
+    #n8n-chat .chat-layout {
       height: 100% !important;
     }
 
     #n8n-chat .chat-layout {
-      height: 100% !important;
       max-height: 100% !important;
-      border-radius: 0 !important;
       overflow: hidden !important;
+      border-radius: 0 !important;
     }
 
     #n8n-chat [class*="powered"],
@@ -217,10 +230,10 @@
       display: flex !important;
       flex-direction: column !important;
       align-items: center !important;
-      text-align: center !important;
       gap: 3px;
       padding-top: 28px !important;
       padding-bottom: 28px !important;
+      text-align: center !important;
     }
 
     .chat-header::before {
@@ -278,7 +291,6 @@
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E");
     }
 
-    /* Fix bottom typing area */
     #n8n-chat .chat-input,
     #n8n-chat .chat-footer,
     #n8n-chat [class*="input"] {
@@ -288,45 +300,35 @@
     #n8n-chat textarea,
     #n8n-chat input {
       min-height: 48px !important;
-      line-height: 1.35 !important;
       font-size: 15px !important;
+      line-height: 1.35 !important;
     }
 
     #n8n-chat .chat-input {
       min-height: 68px !important;
       padding-bottom: max(12px, env(safe-area-inset-bottom)) !important;
+      border-top: 1px solid var(--input-border) !important;
       background: #fff !important;
-      border-top: 1px solid #d9dee7 !important;
     }
 
-    /* Vapi spacing fix */
     vapi-widget {
       position: fixed !important;
-      right: max(22px, env(safe-area-inset-right)) !important;
-      bottom: max(22px, env(safe-area-inset-bottom)) !important;
       z-index: 10003 !important;
+      right: max(var(--desktop-gap), env(safe-area-inset-right)) !important;
+      bottom: max(var(--desktop-gap), env(safe-area-inset-bottom)) !important;
     }
 
     .voice-back {
       position: fixed;
       z-index: 10004;
-      right: max(22px, env(safe-area-inset-right));
+      right: max(var(--desktop-gap), env(safe-area-inset-right));
       bottom: max(96px, calc(env(safe-area-inset-bottom) + 78px));
-      display: grid;
-      place-items: center;
       width: 44px;
       height: 44px;
-      padding: 0;
-      border: 0;
       border-radius: 50%;
-      cursor: pointer;
       color: #fff;
       background: var(--navy);
       box-shadow: 0 6px 16px rgba(22, 50, 79, .25);
-    }
-
-    .voice-back:hover {
-      background: var(--navy-dark);
     }
 
     .voice-back svg {
@@ -336,10 +338,10 @@
 
     @media (max-width: 480px) {
       .ana-launcher {
-        right: 16px;
+        right: var(--mobile-gap);
         bottom: max(18px, env(safe-area-inset-bottom));
-        width: 60px;
-        height: 60px;
+        width: var(--launcher-size-mobile);
+        height: var(--launcher-size-mobile);
       }
 
       .ana-panel {
@@ -348,24 +350,23 @@
         bottom: max(88px, calc(env(safe-area-inset-bottom) + 76px));
         width: auto;
         height: min(650px, calc(100dvh - 112px));
-        border-radius: 18px;
       }
 
       .ana-panel.is-chooser {
+        right: var(--mobile-gap);
         left: auto;
-        right: 16px;
         width: 92px;
         height: 156px;
         bottom: max(88px, calc(env(safe-area-inset-bottom) + 76px));
       }
 
       .panel-topbar {
-        min-height: 56px;
-        height: 56px;
+        height: var(--topbar-height-mobile);
+        min-height: var(--topbar-height-mobile);
       }
 
       .panel-content {
-        height: calc(100% - 56px);
+        height: calc(100% - var(--topbar-height-mobile));
       }
 
       .panel-topbar strong {
@@ -393,12 +394,12 @@
       }
 
       vapi-widget {
-        right: 16px !important;
+        right: var(--mobile-gap) !important;
         bottom: max(18px, env(safe-area-inset-bottom)) !important;
       }
 
       .voice-back {
-        right: 16px;
+        right: var(--mobile-gap);
         bottom: max(92px, calc(env(safe-area-inset-bottom) + 76px));
       }
     }
@@ -427,36 +428,36 @@
 <body>
   <button class="ana-launcher" id="ana-launcher" type="button" aria-label="Open Ana assistant" aria-expanded="false">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M12 8V4H8"/>
-      <rect width="16" height="12" x="4" y="8" rx="2"/>
-      <path d="M2 14h2m16 0h2M9 13v2m6-2v2"/>
+      <path d="M12 8V4H8" />
+      <rect width="16" height="12" x="4" y="8" rx="2" />
+      <path d="M2 14h2m16 0h2M9 13v2m6-2v2" />
     </svg>
   </button>
 
   <section class="ana-panel" id="ana-panel" aria-label="Ana assistant" hidden>
-    <div class="panel-screen chooser" id="chooser-screen">
+    <div class="panel-screen chooser" id="chooser-screen" data-screen="chooser">
       <div class="mode-buttons">
         <button class="mode-button" id="open-chat" type="button" aria-label="Open text chat">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M21 11.5a8.4 8.4 0 0 1-9 8.5 9.8 9.8 0 0 1-4.6-1.1L3 20l1.3-3.8A8.2 8.2 0 0 1 3 11.5a8.5 8.5 0 0 1 9-8.5 8.5 8.5 0 0 1 9 8.5Z"/>
-            <path d="M8 12h.01M12 12h.01M16 12h.01"/>
+            <path d="M21 11.5a8.4 8.4 0 0 1-9 8.5 9.8 9.8 0 0 1-4.6-1.1L3 20l1.3-3.8A8.2 8.2 0 0 1 3 11.5a8.5 8.5 0 0 1 9-8.5 8.5 8.5 0 0 1 9 8.5Z" />
+            <path d="M8 12h.01M12 12h.01M16 12h.01" />
           </svg>
         </button>
 
         <button class="mode-button" id="open-voice" type="button" aria-label="Open voice assistant">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-            <rect x="9" y="2" width="6" height="12" rx="3"/>
-            <path d="M5 10a7 7 0 0 0 14 0M12 17v4m-4 0h8"/>
+            <rect x="9" y="2" width="6" height="12" rx="3" />
+            <path d="M5 10a7 7 0 0 0 14 0M12 17v4m-4 0h8" />
           </svg>
         </button>
       </div>
     </div>
 
-    <div class="panel-screen" id="chat-screen" hidden>
+    <div class="panel-screen" id="chat-screen" data-screen="chat" hidden>
       <div class="panel-topbar">
         <button class="icon-button back-button" type="button" aria-label="Go back">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="m15 18-6-6 6-6"/>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="m15 18-6-6 6-6" />
           </svg>
         </button>
 
@@ -493,37 +494,40 @@
 
   <button class="voice-back" id="voice-back" type="button" hidden aria-label="Back to options" title="Other options">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="m14 6-6 6 6 6"/>
+      <path d="m14 6-6 6 6 6" />
     </svg>
   </button>
 
   <script type="module">
     import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
-    const panel = document.querySelector('#ana-panel');
-    const launcher = document.querySelector('#ana-launcher');
-    const vapiWidget = document.querySelector('#vapi-widget');
-    const voiceBack = document.querySelector('#voice-back');
+    const $ = (selector, root = document) => root.querySelector(selector);
+    const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
-    const screens = {
-      chooser: document.querySelector('#chooser-screen'),
-      chat: document.querySelector('#chat-screen'),
-    };
+    const panel = $('#ana-panel');
+    const launcher = $('#ana-launcher');
+    const vapiWidget = $('#vapi-widget');
+    const voiceBack = $('#voice-back');
+    const screens = $$('[data-screen]', panel);
 
     let chatReady = false;
 
+    const setHidden = (element, isHidden) => {
+      element.hidden = isHidden;
+    };
+
     function showScreen(name) {
-      panel.hidden = false;
+      setHidden(panel, false);
       panel.classList.toggle('is-chooser', name === 'chooser');
       launcher.setAttribute('aria-expanded', 'true');
 
-      Object.entries(screens).forEach(([screenName, screen]) => {
-        screen.hidden = screenName !== name;
+      screens.forEach(screen => {
+        screen.hidden = screen.dataset.screen !== name;
       });
     }
 
     function closePanel() {
-      panel.hidden = true;
+      setHidden(panel, true);
       launcher.setAttribute('aria-expanded', 'false');
     }
 
@@ -531,7 +535,6 @@
       showScreen('chat');
 
       if (chatReady) return;
-
       chatReady = true;
 
       createChat({
@@ -556,21 +559,16 @@
     }
 
     function showVoiceWidget() {
-      panel.hidden = true;
-      launcher.hidden = true;
-      vapiWidget.hidden = false;
-      voiceBack.hidden = false;
-
-      vapiWidget.style.position = 'fixed';
-      vapiWidget.style.right = window.innerWidth <= 480 ? '16px' : '22px';
-      vapiWidget.style.bottom = window.innerWidth <= 480 ? '18px' : '22px';
-      vapiWidget.style.zIndex = '10003';
+      setHidden(panel, true);
+      setHidden(launcher, true);
+      setHidden(vapiWidget, false);
+      setHidden(voiceBack, false);
     }
 
     function returnFromVoice() {
-      vapiWidget.hidden = true;
-      voiceBack.hidden = true;
-      launcher.hidden = false;
+      setHidden(vapiWidget, true);
+      setHidden(voiceBack, true);
+      setHidden(launcher, false);
       showScreen('chooser');
     }
 
@@ -578,18 +576,17 @@
       panel.hidden ? showScreen('chooser') : closePanel();
     });
 
-    document.querySelector('#open-chat').addEventListener('click', startChat);
-    document.querySelector('#open-voice').addEventListener('click', showVoiceWidget);
+    $('#open-chat').addEventListener('click', startChat);
+    $('#open-voice').addEventListener('click', showVoiceWidget);
+    voiceBack.addEventListener('click', returnFromVoice);
 
-    document.querySelectorAll('.back-button').forEach(button => {
+    $$('.back-button', panel).forEach(button => {
       button.addEventListener('click', () => showScreen('chooser'));
     });
 
-    document.querySelectorAll('.close-button').forEach(button => {
+    $$('.close-button', panel).forEach(button => {
       button.addEventListener('click', closePanel);
     });
-
-    voiceBack.addEventListener('click', returnFromVoice);
   </script>
 </body>
 </html>
